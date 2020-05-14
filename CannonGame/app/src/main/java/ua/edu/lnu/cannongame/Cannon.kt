@@ -1,9 +1,6 @@
 package ua.edu.lnu.cannongame
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.Log
 import kotlin.math.PI
 

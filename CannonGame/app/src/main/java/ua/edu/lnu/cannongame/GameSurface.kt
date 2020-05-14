@@ -18,6 +18,10 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
     private var gameThread: GameThread? = null
     private var cannon: Cannon? = null
+    var gameData: GameData? = null
+        get() = field
+        private set
+
     var orientation: Orientation
 
     init {
@@ -77,6 +81,8 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
             Cannon(this, cannonBitmap, width/2-200, height - 225)
         }
 
+        gameData = GameData()
+
         gameThread = GameThread(this, holder)
         gameThread!!.setRunning(true)
         gameThread!!.start()
@@ -88,7 +94,14 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     }
 
     fun update()  {
-        cannon!!.update()
+        if (gameData!!.isGameRunning()){
+            if (gameData!!.canMakeNewShot()){
+                cannon!!.startRotate()
+            }
+            cannon!!.update()
+        }else{
+            pause()
+        }
     }
 
     fun pause(){
@@ -115,8 +128,11 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         if (event!!.action == MotionEvent.ACTION_DOWN){
             if (isCannonActive()){
                 cannon!!.stopRotate()
+                gameData!!.trackNewShot()
             }else{
-                cannon!!.startRotate()
+                if (gameData!!.canMakeNewShot()){
+                    cannon!!.startRotate()
+                }
             }
         }
 
