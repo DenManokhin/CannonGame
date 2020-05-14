@@ -6,8 +6,10 @@
 
     <ua.edu.lnu.cannongame.GameSurface
         android:id="@+id/surface"
+        android:clickable="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/backgraund"/>
+        android:background="@drawable/backgraund"
+        android:focusable="true" />
 
 </RelativeLayout>
