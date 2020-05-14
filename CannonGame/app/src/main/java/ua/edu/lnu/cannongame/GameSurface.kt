@@ -91,6 +91,20 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         cannon!!.update()
     }
 
+    fun pause(){
+        try {
+            gameThread!!.setRunning(false)
+            gameThread!!.join()
+        } catch (e: InterruptedException) {
+        }
+    }
+
+    fun resume(){
+        gameThread = GameThread(this, holder)
+        gameThread!!.setRunning(true)
+        gameThread!!.start()
+    }
+
     fun isCannonActive(): Boolean {
         return cannon!!.isRotating
     }
