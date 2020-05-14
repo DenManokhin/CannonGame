@@ -17,6 +17,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
     private var gameThread: GameThread? = null
     private var cannon: Cannon? = null
+    private var cannonBall: CannonBall? = null
     var orientation: Orientation
 
     init {
@@ -69,12 +70,15 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
         val cannonBitmap =
             BitmapFactory.decodeResource(this.resources, R.drawable.cannon)
+        val cannonBallBitmap =
+            BitmapFactory.decodeResource(this.resources, R.drawable.cannon_ball)
 
         cannon = if (orientation == Orientation.LANDSCAPE){
             Cannon(this, cannonBitmap, 25, height/2-200)
         }else{
             Cannon(this, cannonBitmap, width/2-200, height - 225)
         }
+        cannonBall = CannonBall(this, cannonBallBitmap, 0, 0)
 
         gameThread = GameThread(this, holder)
         gameThread!!.setRunning(true)
