@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 
@@ -88,5 +89,23 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
     fun update()  {
         cannon!!.update()
+    }
+
+    fun isCannonActive(): Boolean {
+        return cannon!!.isRotating
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        Log.i("GameSurface", "Touch ${event.toString()}")
+
+        if (event!!.action == MotionEvent.ACTION_DOWN){
+            if (isCannonActive()){
+                cannon!!.stopRotate()
+            }else{
+                cannon!!.startRotate()
+            }
+        }
+
+        return super.onTouchEvent(event)
     }
 }
