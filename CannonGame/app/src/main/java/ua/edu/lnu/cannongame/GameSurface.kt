@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 
@@ -18,6 +19,11 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     private var gameThread: GameThread? = null
     private var cannon: Cannon? = null
     private var cannonBall: CannonBall? = null
+
+    var gameData: GameData? = null
+        get() = field
+        private set
+
     var orientation: Orientation
 
     init {
@@ -80,6 +86,8 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         }
         cannonBall = CannonBall(this, cannonBallBitmap, 0, 0)
 
+        gameData = GameData()
+
         gameThread = GameThread(this, holder)
         gameThread!!.setRunning(true)
         gameThread!!.start()
@@ -91,6 +99,48 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     }
 
     fun update()  {
-        cannon!!.update()
+        if (gameData!!.isGameRunning()){
+            if (gameData!!.canMakeNewShot()){
+                cannon!!.startRotate()
+            }
+            cannon!!.update()
+        }else{
+            pause()
+        }
+    }
+
+    fun pause(){
+        try {
+            gameThread!!.setRunning(false)
+            gameThread!!.join()
+        } catch (e: InterruptedException) {
+        }
+    }
+
+    fun resume(){
+        gameThread = GameThread(this, holder)
+        gameThread!!.setRunning(true)
+        gameThread!!.start()
+    }
+
+    fun isCannonActive(): Boolean {
+        return cannon!!.isRotating
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        Log.i("GameSurface", "Touch ${event.toString()}")
+
+        if (event!!.action == MotionEvent.ACTION_DOWN){
+            if (isCannonActive()){
+                cannon!!.stopRotate()
+                gameData!!.trackNewShot()
+            }else{
+                if (gameData!!.canMakeNewShot()){
+                    cannon!!.startRotate()
+                }
+            }
+        }
+
+        return super.onTouchEvent(event)
     }
 }
