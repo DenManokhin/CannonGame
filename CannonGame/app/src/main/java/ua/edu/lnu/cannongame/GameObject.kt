@@ -1,6 +1,7 @@
 package ua.edu.lnu.cannongame
 
 import android.graphics.Bitmap
+import android.graphics.Matrix
 
 abstract class GameObject(
     protected var image: Bitmap,
@@ -20,4 +21,9 @@ abstract class GameObject(
         width = WIDTH / colCount
         height = HEIGHT / rowCount
     }
+}
+
+fun Bitmap.rotate(degrees: Float): Bitmap {
+    val matrix = Matrix().apply { postRotate(degrees) }
+    return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
 }
