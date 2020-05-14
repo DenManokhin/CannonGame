@@ -3,7 +3,7 @@ package ua.edu.lnu.cannongame
 import android.graphics.Canvas
 import android.view.SurfaceHolder
 
-class GameThread (surfaceHolder: SurfaceHolder, gameSurface: GameSurface) : Thread() {
+class GameThread (gameSurface: GameSurface, surfaceHolder: SurfaceHolder?) : Thread() {
     private var surfaceHolder: SurfaceHolder? = null
     private var gameSurface: GameSurface? = null
     private var running = false
@@ -26,7 +26,8 @@ class GameThread (surfaceHolder: SurfaceHolder, gameSurface: GameSurface) : Thre
             try {
                 canvas = surfaceHolder!!.lockCanvas(null)
                 synchronized(canvas!!) {
-                    gameSurface!!.draw(canvas)
+                    gameSurface!!.update();
+                    gameSurface!!.postInvalidate()
                 }
             }finally {
                 canvas?.let { surfaceHolder!!.unlockCanvasAndPost(it) }
@@ -34,8 +35,8 @@ class GameThread (surfaceHolder: SurfaceHolder, gameSurface: GameSurface) : Thre
             val now = System.nanoTime()
 
             var waitTime = (now - startTime) / 1000000
-            if (waitTime < 10) {
-                waitTime = 10 // Millisecond.
+            if (waitTime < 100) {
+                waitTime = 100 // Millisecond.
             }
 
             try {
