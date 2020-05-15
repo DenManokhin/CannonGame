@@ -91,6 +91,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         cannon!!.draw(canvas!!)
+        gameData!!.draw(canvas)
     }
 
     fun update()  {

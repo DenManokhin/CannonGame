@@ -1,6 +1,10 @@
 package ua.edu.lnu.cannongame
 
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.util.Log
+
 
 class GameData {
     // 10 seconds
@@ -13,6 +17,13 @@ class GameData {
     var shotsCount = 0L
         get() = field
         private set
+
+    private val mTextPaint: Paint = Paint()
+
+    init {
+        mTextPaint.color = Color.BLACK;
+        mTextPaint.textSize = 50f
+    }
 
     fun canMakeNewShot() : Boolean {
         return timeFromLastShot >= 3000
@@ -33,6 +44,11 @@ class GameData {
 
     fun isGameRunning() : Boolean {
         return timeLeft > 0
+    }
+
+    fun draw(canvas: Canvas) {
+        canvas.drawText("Time remaining: ${timeLeft/1000f} seconds", 10f, 50f, mTextPaint)
+        canvas.drawText("Shots made: $shotsCount", 10f, 100f, mTextPaint)
     }
 
 //    fun updateShot(isHit: Boolean){
