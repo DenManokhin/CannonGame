@@ -99,6 +99,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         super.draw(canvas)
         cannon!!.draw(canvas!!)
         cannonBall!!.draw(canvas!!)
+        gameData!!.draw(canvas)
     }
 
     fun update()  {
