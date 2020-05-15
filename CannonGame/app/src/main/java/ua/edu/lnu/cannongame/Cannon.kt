@@ -14,11 +14,11 @@ class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: I
         }
     }
 
-    private val sightLine: SightLine = SightLine(0f, 0f, 0f,0f)
+    val sightLine: SightLine = SightLine(0f, 0f, 0f,0f)
         get() = field
 
     private val paint: Paint = Paint()
-    private var rotateDeg: Float = -60F
+    var rotateDeg: Float = -30f
         get() = field
     var isRotating: Boolean = true
         get() = field
@@ -33,6 +33,7 @@ class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: I
     init {
         paint.color = Color.RED
         paint.strokeWidth = 10F
+        paint.pathEffect = DashPathEffect(floatArrayOf(10F, 40F), 0F)
     }
 
     fun update(){
@@ -49,11 +50,11 @@ class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: I
 
         if (isRotating){
             rotateDeg += ROTATE_COEF* (VELOCITY * deltaTime) * 1.5f
-            if (rotateDeg > 60) {
-                rotateDeg = 60f
+            if (rotateDeg > 30) {
+                rotateDeg = 30f
                 ROTATE_COEF *= -1
-            }else if(rotateDeg < -60){
-                rotateDeg = -60f
+            }else if(rotateDeg < -30){
+                rotateDeg = -30f
                 ROTATE_COEF *= -1
             }
         }

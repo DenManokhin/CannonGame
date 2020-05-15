@@ -1,6 +1,7 @@
 package ua.edu.lnu.cannongame
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.util.AttributeSet
@@ -76,8 +77,9 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
         val cannonBitmap =
             BitmapFactory.decodeResource(this.resources, R.drawable.cannon)
-        val cannonBallBitmap =
+        val cannonBallBitmapOrigin =
             BitmapFactory.decodeResource(this.resources, R.drawable.cannon_ball)
+        val cannonBallBitmap = Bitmap.createScaledBitmap(cannonBallBitmapOrigin, 30, 30, false)
 
         cannon = if (orientation == Orientation.LANDSCAPE){
             Cannon(this, cannonBitmap, 25, height/2-200)
@@ -96,6 +98,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         cannon!!.draw(canvas!!)
+        cannonBall!!.draw(canvas!!)
     }
 
     fun update()  {
@@ -104,6 +107,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
                 cannon!!.startRotate()
             }
             cannon!!.update()
+            cannonBall!!.update()
         }else{
             pause()
         }
@@ -134,6 +138,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
             if (isCannonActive()){
                 cannon!!.stopRotate()
                 gameData!!.trackNewShot()
+                cannonBall!!.updateMovingVector(cannon!!.sightLine, cannon!!.rotateDeg)
             }else{
                 if (gameData!!.canMakeNewShot()){
                     cannon!!.startRotate()
