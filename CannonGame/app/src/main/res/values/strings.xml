@@ -3,4 +3,8 @@
     <string name="play">Play</string>
     <string name="scoreboard">Scoreboard</string>
     <string name="exit">Exit</string>
+    <string name="info">Info</string>
+    <string name="info_text">The aim the gun at the target, you must touch the screen. The gun will aim at the point of contact with the screen, and fire in a straight line in the specified direction.</string>
+    <string name="icon_back">Back icon</string>
+    <string name="icon_settings">Settings icon</string>
 </resources>
