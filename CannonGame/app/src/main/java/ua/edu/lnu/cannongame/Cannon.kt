@@ -97,11 +97,6 @@ class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: I
         lastDrawNanoTime = System.nanoTime()
     }
 
-    fun changePosition(x: Int, y: Int){
-        this.x = x
-        this.y = y
-    }
-
     fun startRotate() {
         isRotating = true
     }

@@ -19,6 +19,9 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
     private var gameThread: GameThread? = null
     private var cannon: Cannon? = null
+    private var blocksArea: BlocksArea? = null
+    var orientation: Orientation = Orientation.PORTRAIT
+
     private var cannonBall: CannonBall? = null
 
     var gameData: GameData? = null
@@ -29,11 +32,6 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
     init {
         holder.addCallback(this)
-        orientation = if (width > height){
-            Orientation.LANDSCAPE
-        }else{
-            Orientation.PORTRAIT
-        }
     }
 
     constructor(context: Context?) : super(context)
@@ -43,11 +41,21 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         Log.i("GameSurface", "SurfaceChanged width=${width}, height=${height}")
 
         if (width > height){
+            if (orientation == Orientation.PORTRAIT) {
+                synchronized(blocksArea!!) {
+                    blocksArea!!.changeOrientation(Orientation.PORTRAIT, Orientation.LANDSCAPE)
+                }
+            }
             orientation = Orientation.LANDSCAPE
             synchronized(cannon!!){
                 cannon!!.changePosition(25, height/2-200)
             }
         }else{
+            if (orientation == Orientation.LANDSCAPE) {
+                synchronized(blocksArea!!) {
+                    blocksArea!!.changeOrientation(Orientation.LANDSCAPE, Orientation.PORTRAIT)
+                }
+            }
             orientation = Orientation.PORTRAIT
             synchronized(cannon!!){
                 cannon!!.changePosition(width/2-200, height - 275)
@@ -73,7 +81,12 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     }
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
-        Log.i("GameSurface", "SurfaceCreated width=${width}, height=${height}")
+        orientation = if (width > height){
+            Orientation.LANDSCAPE
+        }else{
+            Orientation.PORTRAIT
+        }
+        Log.i("GameSurface", "SurfaceCreated width=${width}, height=${height}, orientation=${orientation}")
 
         val cannonBitmap =
             BitmapFactory.decodeResource(this.resources, R.drawable.cannon)
@@ -90,6 +103,12 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
         gameData = GameData()
 
+        blocksArea = if (orientation == Orientation.LANDSCAPE) {
+            BlocksArea(this, width / 2, 0, width / 2, height, 4, 3)
+        } else {
+            BlocksArea(this, 0, 0, width, height / 2, 3, 4)
+        }
+
         gameThread = GameThread(this, holder)
         gameThread!!.setRunning(true)
         gameThread!!.start()
@@ -100,6 +119,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         cannon!!.draw(canvas!!)
         cannonBall!!.draw(canvas!!)
         gameData!!.draw(canvas)
+        blocksArea!!.draw(canvas!!)
     }
 
     fun update()  {
@@ -109,6 +129,8 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
             }
             cannon!!.update()
             cannonBall!!.update()
+            blocksArea!!.update()
+            
         }else{
             pause()
         }

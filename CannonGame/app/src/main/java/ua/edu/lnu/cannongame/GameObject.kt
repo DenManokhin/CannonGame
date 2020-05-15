@@ -21,6 +21,11 @@ abstract class GameObject(
         width = WIDTH / colCount
         height = HEIGHT / rowCount
     }
+
+    fun changePosition(x: Int, y: Int){
+        this.x = x
+        this.y = y
+    }
 }
 
 fun Bitmap.rotate(degrees: Float): Bitmap {
