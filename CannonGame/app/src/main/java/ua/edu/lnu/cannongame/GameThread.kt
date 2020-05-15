@@ -26,7 +26,7 @@ class GameThread (gameSurface: GameSurface, surfaceHolder: SurfaceHolder?) : Thr
             try {
                 canvas = surfaceHolder!!.lockCanvas(null)
                 synchronized(canvas!!) {
-                    gameSurface!!.update();
+                    gameSurface!!.update()
                     gameSurface!!.postInvalidate()
                 }
             }finally {
@@ -41,6 +41,7 @@ class GameThread (gameSurface: GameSurface, surfaceHolder: SurfaceHolder?) : Thr
 
             try {
                 sleep(waitTime)
+                gameSurface!!.gameData!!.updateTime(waitTime)
             } catch (e: InterruptedException) {
             }
             startTime = System.nanoTime()

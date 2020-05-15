@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 
@@ -20,6 +21,14 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     private var cannon: Cannon? = null
     private var blocksArea: BlocksArea? = null
     var orientation: Orientation = Orientation.PORTRAIT
+
+    private var cannonBall: CannonBall? = null
+
+    var gameData: GameData? = null
+        get() = field
+        private set
+
+    var orientation: Orientation
 
     init {
         holder.addCallback(this)
@@ -81,12 +90,18 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
         val cannonBitmap =
             BitmapFactory.decodeResource(this.resources, R.drawable.cannon)
+        val cannonBallBitmapOrigin =
+            BitmapFactory.decodeResource(this.resources, R.drawable.cannon_ball)
+        val cannonBallBitmap = Bitmap.createScaledBitmap(cannonBallBitmapOrigin, 30, 30, false)
 
         cannon = if (orientation == Orientation.LANDSCAPE){
             Cannon(this, cannonBitmap, 25, height/2-200)
         }else{
             Cannon(this, cannonBitmap, width/2-200, height - 225)
         }
+        cannonBall = CannonBall(this, cannonBallBitmap, 0, 0)
+
+        gameData = GameData()
 
         blocksArea = if (orientation == Orientation.LANDSCAPE) {
             BlocksArea(this, width / 2, 0, width / 2, height, 4, 3)
@@ -102,11 +117,58 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         cannon!!.draw(canvas!!)
+        cannonBall!!.draw(canvas!!)
+        gameData!!.draw(canvas)
         blocksArea!!.draw(canvas!!)
     }
 
     fun update()  {
-        cannon!!.update()
-        blocksArea!!.update()
+        if (gameData!!.isGameRunning()){
+            if (gameData!!.canMakeNewShot()){
+                cannon!!.startRotate()
+            }
+            cannon!!.update()
+            cannonBall!!.update()
+            blocksArea!!.update()
+            
+        }else{
+            pause()
+        }
+    }
+
+    fun pause(){
+        try {
+            gameThread!!.setRunning(false)
+            gameThread!!.join()
+        } catch (e: InterruptedException) {
+        }
+    }
+
+    fun resume(){
+        gameThread = GameThread(this, holder)
+        gameThread!!.setRunning(true)
+        gameThread!!.start()
+    }
+
+    fun isCannonActive(): Boolean {
+        return cannon!!.isRotating
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        Log.i("GameSurface", "Touch ${event.toString()}")
+
+        if (event!!.action == MotionEvent.ACTION_DOWN){
+            if (isCannonActive()){
+                cannon!!.stopRotate()
+                gameData!!.trackNewShot()
+                cannonBall!!.updateMovingVector(cannon!!.sightLine, cannon!!.rotateDeg)
+            }else{
+                if (gameData!!.canMakeNewShot()){
+                    cannon!!.startRotate()
+                }
+            }
+        }
+
+        return super.onTouchEvent(event)
     }
 }
