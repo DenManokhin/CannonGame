@@ -80,7 +80,7 @@ class BlocksArea(
             }
         }
 
-        Log.e("BlockArea updated", "x=${x}, y=${y}, width=${width}, height=${height}, blockWidth=${blockWidth}, blockHeight=${blockHeight}")
+        Log.i("BlockArea updated", "x=${x}, y=${y}, width=${width}, height=${height}, blockWidth=${blockWidth}, blockHeight=${blockHeight}")
     }
 
     fun update() {

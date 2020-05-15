@@ -33,6 +33,6 @@ class Block (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: In
             y = gameSurface.height - oldX - h
         }
 
-        Log.e("Block updated", "x=${x}, y=${y}, width=${w}, height=${h}")
+        Log.i("Block updated", "x=${x}, y=${y}, width=${w}, height=${h}")
     }
 }

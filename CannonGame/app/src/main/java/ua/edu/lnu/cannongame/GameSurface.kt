@@ -28,8 +28,6 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         get() = field
         private set
 
-    var orientation: Orientation
-
     init {
         holder.addCallback(this)
     }
