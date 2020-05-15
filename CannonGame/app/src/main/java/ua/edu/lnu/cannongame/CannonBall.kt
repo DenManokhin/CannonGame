@@ -42,7 +42,7 @@ class CannonBall(private val gameSurface: GameSurface, image: Bitmap?, x: Int, y
                     this.sightLine!!.startY = 0f
 
                     this.sightLine!!.stopY = (gameSurface.height).toFloat()
-                    val h = (gameSurface.height).toFloat() * kotlin.math.tan(rotateDeg * PI / 180)
+                    val h = (gameSurface.height).toFloat() * kotlin.math.tan((90-rotateDeg) * PI / 180)
                     rotateDeg *=- 1
 
                     Log.i("Wall hit up", "h: $h, stopX: ${sightLine!!.stopX}")
@@ -54,7 +54,7 @@ class CannonBall(private val gameSurface: GameSurface, image: Bitmap?, x: Int, y
                     this.sightLine!!.startY = (gameSurface.height).toFloat()
 
                     this.sightLine!!.stopY = 0f
-                    val h = (gameSurface.height).toFloat() * kotlin.math.tan(rotateDeg * PI / 180)
+                    val h = (gameSurface.height).toFloat() * kotlin.math.tan((90-rotateDeg) * PI / 180)
                     rotateDeg *=- 1
 
                     Log.i("Wall hit down", "h: $h, stopX: ${sightLine!!.stopX}")
@@ -68,7 +68,7 @@ class CannonBall(private val gameSurface: GameSurface, image: Bitmap?, x: Int, y
                     this.sightLine!!.startX = 0f
                     this.sightLine!!.startY = this.y.toFloat()
                     this.sightLine!!.stopX = (gameSurface.width).toFloat()
-                    val h = (gameSurface.width).toFloat() * kotlin.math.tan(rotateDeg * PI / 180)
+                    val h = (gameSurface.width).toFloat() * kotlin.math.tan((90-rotateDeg) * PI / 180)
                     rotateDeg *=- 1
 
                     Log.i("Wall hit left", "h: $h, stopY: ${sightLine!!.stopY}")
@@ -79,7 +79,7 @@ class CannonBall(private val gameSurface: GameSurface, image: Bitmap?, x: Int, y
                     this.sightLine!!.startX = gameSurface.width.toFloat()
                     this.sightLine!!.startY = this.y.toFloat()
                     this.sightLine!!.stopX = 0f
-                    val h = (gameSurface.width).toFloat() * kotlin.math.tan(rotateDeg * PI / 180)
+                    val h = (gameSurface.width).toFloat() * kotlin.math.tan((90-rotateDeg) * PI / 180)
                     rotateDeg *=- 1
 
                     Log.i("Wall hit right", "h: $h, stopY: ${sightLine!!.stopY}")

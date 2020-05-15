@@ -18,7 +18,7 @@ class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: I
         get() = field
 
     private val paint: Paint = Paint()
-    var rotateDeg: Float = -30f
+    var rotateDeg: Float = -75f
         get() = field
     var isRotating: Boolean = true
         get() = field
@@ -50,11 +50,11 @@ class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: I
 
         if (isRotating){
             rotateDeg += ROTATE_COEF* (VELOCITY * deltaTime) * 1.5f
-            if (rotateDeg > 30) {
-                rotateDeg = 30f
+            if (rotateDeg > 75) {
+                rotateDeg = 75f
                 ROTATE_COEF *= -1
-            }else if(rotateDeg < -30){
-                rotateDeg = -30f
+            }else if(rotateDeg < -75){
+                rotateDeg = -75f
                 ROTATE_COEF *= -1
             }
         }
