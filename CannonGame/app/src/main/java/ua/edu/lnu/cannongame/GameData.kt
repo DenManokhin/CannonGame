@@ -8,7 +8,7 @@ import android.util.Log
 
 class GameData(private val gameSurface: GameSurface) {
     // 10 seconds
-    private var timeLeft = 100000L
+    private var timeLeft = 10000L
 
     private var totalTime = 0L
 

@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.view.View
 import java.util.*
 
 
@@ -160,7 +161,9 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
             blocksArea!!.update()
             
         }else{
-            pause()
+            gameThread!!.setRunning(false)
+            val gameActivity = context as GameActivity
+            gameActivity.showDialog()
         }
     }
 
@@ -170,9 +173,11 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
             gameThread!!.join()
         } catch (e: InterruptedException) {
         }
+        Log.i("GameSurface", "paused")
     }
 
     fun resume(){
+        Log.i("GameSurface", "resumed")
         gameThread = GameThread(this, holder)
         gameThread!!.setRunning(true)
         gameThread!!.start()

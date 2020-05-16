@@ -1,6 +1,7 @@
 package ua.edu.lnu.cannongame
 
 import android.graphics.Canvas
+import android.util.Log
 import android.view.SurfaceHolder
 
 class GameThread (gameSurface: GameSurface, surfaceHolder: SurfaceHolder?) : Thread() {
@@ -18,6 +19,8 @@ class GameThread (gameSurface: GameSurface, surfaceHolder: SurfaceHolder?) : Thr
     }
 
     override fun run() {
+        Log.i("GameThread", "Thread started")
+
         var startTime = System.nanoTime()
 
         var canvas: Canvas?
@@ -46,5 +49,7 @@ class GameThread (gameSurface: GameSurface, surfaceHolder: SurfaceHolder?) : Thr
             }
             startTime = System.nanoTime()
         }
+
+        Log.i("GameThread", "Thread ended")
     }
 }
