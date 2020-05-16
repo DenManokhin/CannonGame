@@ -42,7 +42,7 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/buttonStart"
+        android:id="@+id/playButton"
         android:layout_below="@id/headingMain"
         android:layout_width="205dp"
         android:layout_height="60dp"
@@ -80,4 +80,5 @@
         android:text="@string/exit"
         android:textColor="#FFFFFF"
         android:textSize="26sp" />
+
 </RelativeLayout>

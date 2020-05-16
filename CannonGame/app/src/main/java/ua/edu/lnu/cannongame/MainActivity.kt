@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -13,12 +14,31 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val startBtn = findViewById<Button>(R.id.buttonStart)
-        startBtn.setOnClickListener {
-            Log.i("MainActivity", "Start clicked")
-            val intent = Intent(this@MainActivity, GameActivity::class.java)
-            startActivity(intent)
-        }
+        findViewById<Button>(R.id.playButton)
+            .setOnClickListener {
+                Log.i("MainActivity", "Start clicked")
+                val intent = Intent(this@MainActivity, GameActivity::class.java)
+                startActivity(intent)
+            }
+        findViewById<ImageButton>(R.id.infoButton)
+            .setOnClickListener {
+                Log.i("MainActivity", "Info clicked")
+                val intent = Intent(this@MainActivity, InfoActivity::class.java)
+                startActivity(intent)
+            }
+        findViewById<ImageButton>(R.id.settingsButton)
+            .setOnClickListener {
+                Log.i("MainActivity", "Settings clicked")
+                val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+                startActivity(intent)
+            }
+        findViewById<Button>(R.id.exitButton)
+            .setOnClickListener {
+                Log.i("MainActivity", "Exit clicked")
+                val intent = Intent(Intent.ACTION_MAIN)
+                intent.addCategory(Intent.CATEGORY_HOME)
+                startActivity(intent)
+            }
     }
 //        val intent = Intent(this@MainActivity, GameActivity::class.java)
 //        startActivity(intent)
