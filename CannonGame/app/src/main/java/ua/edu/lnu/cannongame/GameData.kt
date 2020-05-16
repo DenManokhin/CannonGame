@@ -6,7 +6,7 @@ import android.graphics.Paint
 import android.util.Log
 
 
-class GameData {
+class GameData(private val gameSurface: GameSurface) {
     // 10 seconds
     private var timeLeft = 100000L
 
@@ -47,8 +47,19 @@ class GameData {
     }
 
     fun draw(canvas: Canvas) {
-        canvas.drawText("Time remaining: ${timeLeft/1000f} seconds", 10f, 50f, mTextPaint)
-        canvas.drawText("Shots made: $shotsCount", 10f, 100f, mTextPaint)
+        mTextPaint.textSize = 45f;
+        canvas.drawText("Time remaining: ${timeLeft / 1000f} seconds", 15f, 50f, mTextPaint)
+        canvas.drawText("Shots made: $shotsCount", 15f, 100f, mTextPaint)
+    }
+
+    fun hitShot() {
+        timeLeft += 3000L
+        timeFromLastShot = 3000L
+    }
+
+    fun missShot() {
+        timeLeft -= 2000L
+        timeFromLastShot = 3000L
     }
 
 //    fun updateShot(isHit: Boolean){
