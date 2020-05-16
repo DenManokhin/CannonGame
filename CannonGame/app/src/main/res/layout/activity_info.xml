@@ -5,7 +5,7 @@
     android:background="@drawable/gradient" >
 
     <ImageButton
-        android:id="@+id/infoButton"
+        android:id="@+id/backButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
