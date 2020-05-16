@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
-    android:gravity="fill_horizontal">
+    android:background="@drawable/gradient" >
 
     <ImageButton
         android:id="@+id/backButton"
@@ -14,28 +13,27 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="#00000000"
-        android:contentDescription="@string/icon_back"
-        android:src="@drawable/ic_back" />
+        android:src="@drawable/ic_back"
+        android:contentDescription="@string/icon_back" />
 
     <ImageButton
         android:id="@+id/settingsButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
         android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="#00000000"
-        android:contentDescription="@string/icon_settings"
-        android:src="@drawable/ic_settings" />
+        android:src="@drawable/ic_settings"
+        android:contentDescription="@string/icon_settings" />
 
     <TextView
         android:id="@+id/headingInfo"
+        android:layout_below="@id/settingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/settingsButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginVertical="30dp"
         android:fontFamily="serif"
         android:text="@string/info"
         android:textColor="#FFFFFF"
