@@ -33,22 +33,23 @@ class GameOverDialog : DialogFragment() {
         cancelButton.setOnClickListener { // When button is clicked, call up to owning activity.
             Log.i("GameOverDialog", "User cancelled the dialog")
             Log.i("GameOverDialog", "$activity")
-            Thread(Runnable {
-                val intent = Intent(activity, MainActivity::class.java)
-                startActivity(intent)
-                (activity as GameActivity).finish()
-            }).start()
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            activity.finish()
+            Runtime.getRuntime().exit(0)
+
 
         }
         val saveButton: Button = v.findViewById(game_over_save) as Button
         saveButton.setOnClickListener { // When button is clicked, call up to owning activity.
             Log.i("GameOverDialog", "User clicked save button")
             Log.i("GameOverDialog", "$activity")
-            Thread(Runnable {
-                val intent = Intent(activity, MainActivity::class.java)
-                startActivity(intent)
-                (activity as GameActivity).finish()
-            }).start()
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            activity.finish()
+            Runtime.getRuntime().exit(0)
         }
 
         return v
