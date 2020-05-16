@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    android:gravity="fill_horizontal">
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#00000000"
+        android:contentDescription="@string/icon_back"
+        android:src="@drawable/ic_back" />
+
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#00000000"
+        android:contentDescription="@string/icon_settings"
+        android:src="@drawable/ic_settings" />
+
+    <TextView
+        android:id="@+id/headingInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settingsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="30dp"
+        android:fontFamily="serif"
+        android:text="@string/info"
+        android:textColor="#FFFFFF"
+        android:textSize="45sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headingInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginVertical="20dp"
+        android:fontFamily="serif"
+        android:gravity="fill_horizontal"
+        android:text="@string/info_text"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp" />
+</RelativeLayout>
