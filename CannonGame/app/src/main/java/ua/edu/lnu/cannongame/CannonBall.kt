@@ -68,6 +68,11 @@ class CannonBall(
 
                     sightLine!!.stopX = this.x.toFloat() + h.toFloat()
                 }
+
+                if(this.x >= gameSurface.width)
+                {
+                    gameSurface.gameData!!.missShot()
+                }
             }
             else {
                 if (this.x <= 0) {
@@ -92,6 +97,11 @@ class CannonBall(
                     Log.i("Wall hit right", "h: $h, stopY: ${sightLine!!.stopY}")
 
                     sightLine!!.stopY = this.y.toFloat() - h.toFloat()
+                }
+
+                if(this.y <= 0)
+                {
+                    gameSurface.gameData!!.missShot()
                 }
             }
         }

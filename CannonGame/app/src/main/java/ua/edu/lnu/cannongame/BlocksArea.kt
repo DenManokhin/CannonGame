@@ -91,4 +91,8 @@ class BlocksArea(
             block.draw(canvas)
         }
     }
+
+    fun removeBlock(x: Block){
+        blocks.remove(x)
+    }
 }

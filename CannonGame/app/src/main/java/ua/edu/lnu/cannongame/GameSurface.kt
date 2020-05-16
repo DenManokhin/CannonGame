@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import java.util.*
 
 
 class GameSurface: SurfaceView, SurfaceHolder.Callback {
@@ -35,6 +36,33 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     constructor(context: Context?) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
+    private fun dot(U:List<Int>, V:List<Int>): Int {
+        return U[0] * V[0] + U[1] * V[1]
+    }
+
+    private fun validateCoords() {
+        val m: List<Int> = listOf(cannonBall!!.x, cannonBall!!.y)
+
+        for(block in blocksArea!!.blocks) {
+            val a:List<Int> = listOf(block.x + block.height, block.y)
+            val b:List<Int> = listOf(block.x, block.y)
+            val c:List<Int> = listOf(block.x, block.y + block.width)
+
+            val ab:List<Int> = listOf(b[0]-a[0], b[1]-a[1])
+            val bc:List<Int> = listOf(c[0]-b[0], c[1]-b[1])
+
+            val am:List<Int> = listOf(m[0]-a[0], m[1]-a[1])
+            val bm:List<Int> = listOf(m[0]-b[0], m[1]-b[1])
+
+            if ((0 <= dot(ab,am) && dot(ab,am) <= dot(ab,ab)) &&
+                    (0 <= dot(bc,bm) && dot(bc,bm) <= dot(bc,bc))) {
+                blocksArea!!.removeBlock(block)
+                gameData!!.hitShot()
+                break
+            }
+        }
+    }
+    
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
         Log.i("GameSurface", "SurfaceChanged width=${width}, height=${height}")
 
@@ -98,12 +126,12 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         }
         cannonBall = CannonBall(this, cannonBallBitmap, 0, 0, 30, 30)
 
-        gameData = GameData()
+        gameData = GameData(this)
 
         blocksArea = if (orientation == Orientation.LANDSCAPE) {
             BlocksArea(this, width / 2, 0, width / 2, height, 4, 3)
         } else {
-            BlocksArea(this, 0, 0, width, height / 2, 3, 4)
+            BlocksArea(this, 0, 70, width, height / 2, 3, 4)
         }
 
         gameThread = GameThread(this, holder)
@@ -123,6 +151,9 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         if (gameData!!.isGameRunning()){
             if (gameData!!.canMakeNewShot()){
                 cannon!!.startRotate()
+            }
+            else {
+                validateCoords()
             }
             cannon!!.update()
             cannonBall!!.update()
