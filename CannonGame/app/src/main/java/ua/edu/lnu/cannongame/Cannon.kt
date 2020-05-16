@@ -5,9 +5,15 @@ import android.util.Log
 import kotlin.math.PI
 
 
-class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: Int) :
-    GameObject(image!!, 4, 3, x, y) {
-
+class Cannon (
+    private val gameSurface: GameSurface,
+    image: Bitmap?,
+    x: Int,
+    y: Int,
+    width: Int,
+    height: Int
+) : GameObject(image!!, x, y, width, height)
+{
     class SightLine(var startX: Float, var startY: Float, var stopX: Float, var stopY: Float){
         override fun toString(): String {
             return "SightLine {startX=${startX}, startY=${startY}, stopX=${stopX}, stopY=${stopY}}"
@@ -36,7 +42,7 @@ class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: I
         paint.pathEffect = DashPathEffect(floatArrayOf(10F, 40F), 0F)
     }
 
-    fun update(){
+    override fun update() {
         // Current time in nanoseconds
         val now = System.nanoTime()
 
@@ -60,11 +66,11 @@ class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: I
         }
     }
 
-    fun draw(canvas: Canvas) {
+    override fun draw(canvas: Canvas) {
         Log.i("Cannon data", "x=${x}, y=${y}, deg=${rotateDeg}")
 
         if (gameSurface.orientation == GameSurface.Orientation.LANDSCAPE){
-            canvas.drawBitmap(image.rotate(rotateDeg), x.toFloat(), y.toFloat(), null)
+            canvas.drawBitmap(image!!.rotate(rotateDeg), x.toFloat(), y.toFloat(), null)
 
             if (isRotating){
                 sightLine.startX = 200f
@@ -78,7 +84,7 @@ class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: I
                 canvas.drawLine(sightLine.startX, sightLine.startY, sightLine.stopX, sightLine.stopY, paint)
             }
         }else{
-            canvas.drawBitmap(image.rotate(rotateDeg-90), x.toFloat(), y.toFloat(), null)
+            canvas.drawBitmap(image!!.rotate(rotateDeg-90), x.toFloat(), y.toFloat(), null)
 
             if (isRotating){
                 sightLine.startX = (gameSurface.width/2).toFloat()
@@ -95,11 +101,6 @@ class Cannon (private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: I
 
         // Last draw time.
         lastDrawNanoTime = System.nanoTime()
-    }
-
-    fun changePosition(x: Int, y: Int){
-        this.x = x
-        this.y = y
     }
 
     fun startRotate() {
