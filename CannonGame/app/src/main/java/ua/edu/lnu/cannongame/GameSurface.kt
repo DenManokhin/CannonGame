@@ -88,16 +88,15 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
         val cannonBitmap =
             BitmapFactory.decodeResource(this.resources, R.drawable.cannon)
-        val cannonBallBitmapOrigin =
+        val cannonBallBitmap =
             BitmapFactory.decodeResource(this.resources, R.drawable.cannon_ball)
-        val cannonBallBitmap = Bitmap.createScaledBitmap(cannonBallBitmapOrigin, 30, 30, false)
 
         cannon = if (orientation == Orientation.LANDSCAPE){
-            Cannon(this, cannonBitmap, 25, height/2-200)
+            Cannon(this, cannonBitmap, 25, height/2-200, -1, -1)
         }else{
-            Cannon(this, cannonBitmap, width/2-200, height - 225)
+            Cannon(this, cannonBitmap, width/2-200, height - 225, -1, -1)
         }
-        cannonBall = CannonBall(this, cannonBallBitmap, 0, 0)
+        cannonBall = CannonBall(this, cannonBallBitmap, 0, 0, 30, 30)
 
         gameData = GameData()
 
@@ -115,9 +114,9 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         cannon!!.draw(canvas!!)
-        cannonBall!!.draw(canvas!!)
+        cannonBall!!.draw(canvas)
         gameData!!.draw(canvas)
-        blocksArea!!.draw(canvas!!)
+        blocksArea!!.draw(canvas)
     }
 
     fun update()  {

@@ -5,14 +5,21 @@ import android.graphics.Canvas
 import android.util.Log
 import kotlin.math.PI
 
-class CannonBall(private val gameSurface: GameSurface, image: Bitmap?, x: Int, y: Int) :
-        GameObject(image!!, 4, 3, x, y) {
+class CannonBall(
+    private val gameSurface: GameSurface,
+    image: Bitmap?,
+    x: Int,
+    y: Int,
+    width: Int,
+    height: Int
+) : GameObject(image!!, x, y, width, height)
+{
     private val VELOCITY = 1.5f
     private var rotateDeg = 0f
     private var sightLine: Cannon.SightLine? = null
     private var lastDrawNanoTime: Long = -1
 
-    fun update(){
+    override fun update(){
         if(!gameSurface.isCannonActive()) {
             // Current time in nanoseconds
             val now = System.nanoTime()
@@ -90,11 +97,11 @@ class CannonBall(private val gameSurface: GameSurface, image: Bitmap?, x: Int, y
         }
     }
 
-    fun draw(canvas: Canvas) {
+    override fun draw(canvas: Canvas) {
         if(!gameSurface.isCannonActive()) {
             Log.i("Cannon ball data", "x=${x}, y=${y}")
 
-            canvas.drawBitmap(image, x.toFloat(), y.toFloat(), null)
+            canvas.drawBitmap(image!!, x.toFloat(), y.toFloat(), null)
 
             // Last draw time.
             lastDrawNanoTime = System.nanoTime()
