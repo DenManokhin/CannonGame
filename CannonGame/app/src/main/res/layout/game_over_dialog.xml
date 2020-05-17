@@ -6,7 +6,8 @@
     android:focusable="true">
     <TextView
         android:id="@+id/game_over_text"
-        android:layout_height="80dp"
+        android:textSize="20sp"
+        android:layout_height="90dp"
         android:layout_width="match_parent" />
     <EditText
         android:id="@+id/nickname"

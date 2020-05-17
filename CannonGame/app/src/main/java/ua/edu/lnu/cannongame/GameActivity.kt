@@ -7,12 +7,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
 
 
 class GameActivity : AppCompatActivity() {
 
+    class Score(
+        val nickName: String,
+        val totalTime: Long
+    )
+
     val APP_PREFERENCES = "cannon_game_settings"
     val APP_DIFFICULTY = "difficulty"
+
     lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +43,11 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun showDialog() {
-//        val fragmentManager = fragmentManager
+        val gameSurface: GameSurface = findViewById(R.id.surface)
         val newFragment: DialogFragment = GameOverDialog.newInstance(
-            0
+            gameSurface.gameData!!.totalTime
         )
+        saveCurrentTime(gameSurface.gameData!!.totalTime)
         newFragment.show(fragmentManager, "dialog")
 //        fragmentManager.beginTransaction()
 //            .show(newFragment)
@@ -51,6 +59,41 @@ class GameActivity : AppCompatActivity() {
 
     fun getDifficulty(): Int{
         return pref.getInt(APP_DIFFICULTY, 1)
+    }
+
+    fun saveCurrentTime(totalTime: Long){
+        val editor = pref.edit()
+        editor.putLong("currentTime", totalTime)
+        editor.apply()
+    }
+
+    fun getCurrentTime(): Long{
+        return pref.getLong("currentTime", -1)
+    }
+
+    fun updateScoreboard(nickName: String, totalTime: Long){
+        val gson = Gson()
+        val list = mutableListOf<Score>()
+        for (i in 1 until 11){
+            val obj = gson.fromJson(pref.getString("pos_$i", "")!!, Score::class.java)
+            if (obj != null){
+                list.add(obj)
+            }
+        }
+        list.add(Score(nickName, totalTime))
+        list.sortBy{ it.totalTime }
+        if (list.size > 10){
+            list.removeAt(10)
+        }
+        val editor = pref.edit()
+        for (i in 1 until 11){
+            if (i > list.size){
+                break
+            }
+            editor.putString("pos_$i", gson.toJson(list[i-1]))
+        }
+        editor.apply()
+        Log.i("GameActivity", "Scores: $list")
     }
 
     fun returnToMenu(view: View?) {
