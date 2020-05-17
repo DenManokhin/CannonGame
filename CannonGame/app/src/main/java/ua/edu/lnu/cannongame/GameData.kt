@@ -10,6 +10,9 @@ class GameData(private val gameSurface: GameSurface) {
     // 10 seconds
     private var timeLeft = 10000L
 
+    var resultMessage: String = "lose"
+        get() = field
+
     var totalTime = 0L
         get() = field
         private set

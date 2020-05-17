@@ -13,7 +13,6 @@ import android.view.View
 import java.util.*
 
 
-
 class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
     enum class Orientation {
@@ -74,6 +73,13 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
                 gameData!!.hitShot()
                 break
             }
+        }
+
+        if(blocksArea?.blocks.isNullOrEmpty()) {
+            gameData!!.resultMessage = "win"
+            gameThread!!.setRunning(false)
+            val gameActivity = context as GameActivity
+            gameActivity.showDialog()
         }
     }
     

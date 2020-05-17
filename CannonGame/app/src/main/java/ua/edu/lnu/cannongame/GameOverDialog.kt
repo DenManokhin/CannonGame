@@ -29,9 +29,11 @@ class GameOverDialog : DialogFragment() {
         val v: View = inflater.inflate(R.layout.game_over_dialog, container, false)
         val tv: View = v.findViewById(R.id.game_over_text)
         val currentTime = (activity as GameActivity).getCurrentTime()
+        val resultMessage = (activity as GameActivity).getResultMessage()
+
         if (currentTime != -1L){
             (tv as TextView).text =
-                        "Game is over\n" +
+                        "You " + resultMessage + "!!!\n" +
                         "Total time: ${currentTime/1000f} seconds\n" +
                         "Please input your nickname"
         }

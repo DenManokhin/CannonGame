@@ -48,6 +48,8 @@ class GameActivity : AppCompatActivity() {
             gameSurface.gameData!!.totalTime
         )
         saveCurrentTime(gameSurface.gameData!!.totalTime)
+        saveResultMessage(gameSurface.gameData!!.resultMessage)
+
         newFragment.show(fragmentManager, "dialog")
 //        fragmentManager.beginTransaction()
 //            .show(newFragment)
@@ -61,7 +63,7 @@ class GameActivity : AppCompatActivity() {
         return pref.getInt(APP_DIFFICULTY, 1)
     }
 
-    fun saveCurrentTime(totalTime: Long){
+    private fun saveCurrentTime(totalTime: Long){
         val editor = pref.edit()
         editor.putLong("currentTime", totalTime)
         editor.apply()
@@ -69,6 +71,16 @@ class GameActivity : AppCompatActivity() {
 
     fun getCurrentTime(): Long{
         return pref.getLong("currentTime", -1)
+    }
+
+    private fun saveResultMessage(ResultMessage: String){
+        val editor = pref.edit()
+        editor.putString("resultMessage", ResultMessage)
+        editor.apply()
+    }
+
+    fun getResultMessage(): String {
+        return pref.getString("resultMessage", "lose")!!
     }
 
     fun updateScoreboard(nickName: String, totalTime: Long){
