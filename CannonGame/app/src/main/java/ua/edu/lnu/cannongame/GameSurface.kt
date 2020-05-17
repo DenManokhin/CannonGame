@@ -13,16 +13,28 @@ import android.view.View
 import java.util.*
 
 
+
 class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
     enum class Orientation {
         PORTRAIT, LANDSCAPE
     }
 
+    enum class Difficulty constructor(val value: Int){
+        EASY(1),
+        MEDIUM (2),
+        HARD (3);
+
+        companion object {
+            operator fun invoke(rawValue: Int) = values().find { it.value == rawValue }
+        }
+    }
+
     private var gameThread: GameThread? = null
     private var cannon: Cannon? = null
     private var blocksArea: BlocksArea? = null
     var orientation: Orientation = Orientation.PORTRAIT
+    var difficulty: Difficulty?
 
     private var cannonBall: CannonBall? = null
 
@@ -32,6 +44,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
     init {
         holder.addCallback(this)
+        difficulty = Difficulty((context as GameActivity).getDifficulty())
     }
 
     constructor(context: Context?) : super(context)
@@ -108,6 +121,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     }
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
+        Log.i("GameSurface", "Difficulty: $difficulty")
         orientation = if (width > height){
             Orientation.LANDSCAPE
         }else{
