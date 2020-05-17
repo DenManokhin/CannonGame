@@ -1,12 +1,16 @@
 package ua.edu.lnu.cannongame
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -35,9 +39,18 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.exitButton)
             .setOnClickListener {
                 Log.i("MainActivity", "Exit clicked")
-                val intent = Intent(Intent.ACTION_MAIN)
-                intent.addCategory(Intent.CATEGORY_HOME)
-                startActivity(intent)
+                AlertDialog.Builder(this)
+                        .setTitle(Html.fromHtml("<font color='#ffffff'>Are you sure?</font>"))
+                        .setNeutralButton("CANCEL") { dialog, _ ->
+                            dialog.cancel();
+                        }
+                        .setPositiveButton("EXIT") { _, _ ->
+                            val intent = Intent(Intent.ACTION_MAIN)
+                            intent.addCategory(Intent.CATEGORY_HOME)
+                            startActivity(intent)
+                        }
+                        .show()
+                        .window!!.setBackgroundDrawable(ColorDrawable(Color.BLACK));
             }
     }
 //        val intent = Intent(this@MainActivity, GameActivity::class.java)
