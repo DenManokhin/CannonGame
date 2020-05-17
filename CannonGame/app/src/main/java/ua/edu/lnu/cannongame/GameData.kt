@@ -3,12 +3,25 @@ package ua.edu.lnu.cannongame
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.SoundPool
 import android.util.Log
 
 
 class GameData(private val gameSurface: GameSurface) {
     // 10 seconds
     private var timeLeft = 10000L
+
+    var attributes = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_GAME)
+        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+        .build()
+
+    var soundPool = SoundPool.Builder()
+        .setAudioAttributes(attributes)
+        .build()
+
 
     var totalTime = 0L
         get() = field
@@ -36,6 +49,7 @@ class GameData(private val gameSurface: GameSurface) {
         shotsCount++
 
         Log.i("GameData", "New shot made, shoutCount=${shotsCount}, timeLeft=${timeLeft}")
+
     }
 
     fun updateTime(waitTime: Long){
@@ -57,6 +71,12 @@ class GameData(private val gameSurface: GameSurface) {
     fun hitShot() {
         timeLeft += 3000L
         timeFromLastShot = 3000L
+
+        //val soundId = soundPool.load(gameSurface.getContext().getApplicationContext(), R.raw.shot_in_block, 1)
+        val soundId = soundPool.load(gameSurface.getContext().getApplicationContext(), R.raw.shot_in_block, 1)
+        Log.e("Sound loaded", "id=${soundId}")
+        soundPool.play(soundId, 10F, 10F, 0, 0, 10F)
+
     }
 
     fun missShot() {
