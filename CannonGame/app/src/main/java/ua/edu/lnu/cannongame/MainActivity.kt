@@ -32,6 +32,12 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, SettingsActivity::class.java)
                 startActivity(intent)
             }
+        findViewById<Button>(R.id.scoreboardButton)
+            .setOnClickListener {
+                Log.i("MainActivity", "Scoreboard clicked")
+                val intent = Intent(this@MainActivity, ScoreActivity::class.java)
+                startActivity(intent)
+            }
         findViewById<Button>(R.id.exitButton)
             .setOnClickListener {
                 Log.i("MainActivity", "Exit clicked")
