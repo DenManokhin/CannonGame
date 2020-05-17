@@ -64,6 +64,11 @@ class GameData(private val gameSurface: GameSurface) {
         timeFromLastShot = 3000L
     }
 
+    fun hitUnbreakable(){
+        timeLeft -= 2000L
+        timeFromLastShot = 3000L
+    }
+
 //    fun updateShot(isHit: Boolean){
 //        if (isHit){
 //

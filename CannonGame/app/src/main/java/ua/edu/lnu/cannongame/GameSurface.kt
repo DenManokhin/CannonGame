@@ -70,9 +70,16 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
             if ((0 <= dot(ab,am) && dot(ab,am) <= dot(ab,ab)) &&
                     (0 <= dot(bc,bm) && dot(bc,bm) <= dot(bc,bc))) {
-                blocksArea!!.removeBlock(block)
-                gameData!!.hitShot()
-                break
+                if(!block.isUnbreakable)
+                {
+                    blocksArea!!.removeBlock(block)
+                    gameData!!.hitShot()
+                    break
+                }
+                else
+                {
+                    gameData!!.hitUnbreakable()
+                }
             }
         }
     }
