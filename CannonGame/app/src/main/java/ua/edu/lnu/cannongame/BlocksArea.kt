@@ -12,6 +12,7 @@ class BlocksArea(
     width: Int,
     height: Int,
     num: Int,
+    unbreakableNum: Int,
     private var rows: Int,
     private var cols: Int
 ) : GameObject(null, x, y, width, height)
@@ -37,8 +38,14 @@ class BlocksArea(
             BitmapFactory.decodeResource(gameSurface.resources, R.drawable.target)
         }
 
-        if (num > rows * cols) {
-            throw IllegalArgumentException("Can not create ${num} blocks on ${rows}x${cols} grid")
+        val unbreakableBlockBitmap = if (gameSurface.orientation == GameSurface.Orientation.LANDSCAPE) {
+            BitmapFactory.decodeResource(gameSurface.resources, R.drawable.block).rotate(90f)
+        } else {
+            BitmapFactory.decodeResource(gameSurface.resources, R.drawable.block)
+        }
+
+        if (num + unbreakableNum > rows * cols) {
+            throw IllegalArgumentException("Can not create ${num+unbreakableNum} blocks on ${rows}x${cols} grid")
         }
 
         var gridCoordinates = mutableSetOf<Pair<Int, Int>>()
@@ -51,6 +58,7 @@ class BlocksArea(
             val block = if (gameSurface.orientation == GameSurface.Orientation.LANDSCAPE) {
                 Block(
                     gameSurface,
+                    false,
                     blockBitmap,
                     x + width - (blockWidth + paddingX + j * (paddingX + blockWidth)),
                     y + paddingY + i * (paddingY + blockHeight),
@@ -60,6 +68,7 @@ class BlocksArea(
             } else {
                 Block(
                     gameSurface,
+                    false,
                     blockBitmap,
                     x + paddingX + j * (paddingX + blockWidth),
                     y + paddingY + i * (paddingY + blockHeight),
@@ -68,6 +77,40 @@ class BlocksArea(
                 )
             }
             blocks.add(block)
+        }
+
+        var unbreakableGridCoordinates = mutableSetOf<Pair<Int, Int>>()
+        while (unbreakableGridCoordinates.size != unbreakableNum) {
+            val coordinate = Pair(Random.nextInt(0, rows), Random.nextInt(0, cols))
+            if(!gridCoordinates.contains(coordinate))
+            {
+                unbreakableGridCoordinates.add(coordinate)
+            }
+        }
+
+        for ((i, j) in unbreakableGridCoordinates) {
+            val unbreakableBlock = if (gameSurface.orientation == GameSurface.Orientation.LANDSCAPE) {
+                Block(
+                    gameSurface,
+                    true,
+                    unbreakableBlockBitmap,
+                    x + width - (blockWidth + paddingX + j * (paddingX + blockWidth)),
+                    y + paddingY + i * (paddingY + blockHeight),
+                    blockWidth,
+                    blockHeight
+                )
+            } else {
+                Block(
+                    gameSurface,
+                    true,
+                    unbreakableBlockBitmap,
+                    x + paddingX + j * (paddingX + blockWidth),
+                    y + paddingY + i * (paddingY + blockHeight),
+                    blockWidth,
+                    blockHeight
+                )
+            }
+            blocks.add(unbreakableBlock)
         }
     }
 

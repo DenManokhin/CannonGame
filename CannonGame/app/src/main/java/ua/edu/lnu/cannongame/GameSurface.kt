@@ -144,9 +144,9 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         gameData = GameData(this)
 
         blocksArea = if (orientation == Orientation.LANDSCAPE) {
-            BlocksArea(this, width / 2, 0, width / 2, height, 5, 4, 3)
+            BlocksArea(this, width / 2, 0, width / 2, height, 5, 1,4, 3)
         } else {
-            BlocksArea(this, 0, 70, width, height / 2, 5,3, 4)
+            BlocksArea(this, 0, 70, width, height / 2, 5,1,3, 4)
         }
 
         gameThread = GameThread(this, holder)
