@@ -2,6 +2,7 @@ package ua.edu.lnu.cannongame
 
 import android.app.DialogFragment
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,8 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 
 class GameActivity : AppCompatActivity() {
 
+    val APP_PREFERENCES = "cannon_game_settings"
+    val APP_DIFFICULTY = "difficulty"
+    lateinit var pref: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        pref = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
         setContentView(R.layout.game_activity)
         val surface: GameSurface = findViewById(R.id.surface)
         surface.setOnFocusChangeListener { v, hasFocus ->
@@ -41,6 +47,10 @@ class GameActivity : AppCompatActivity() {
         Log.i("GameActivity", "showDialog()")
 //        val gameSurface: GameSurface = findViewById(R.id.surface)
 //        gameSurface.pause()
+    }
+
+    fun getDifficulty(): Int{
+        return pref.getInt(APP_DIFFICULTY, 1)
     }
 
     fun returnToMenu(view: View?) {
