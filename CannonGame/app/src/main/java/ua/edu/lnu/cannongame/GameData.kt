@@ -3,6 +3,7 @@ package ua.edu.lnu.cannongame
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.util.Log
 
 
@@ -52,9 +53,12 @@ class GameData(private val gameSurface: GameSurface) {
     }
 
     fun draw(canvas: Canvas) {
-        mTextPaint.textSize = 45f;
+        mTextPaint.textSize = 47f
+        mTextPaint.color = Color.rgb(0, 0, 0)
+        mTextPaint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
         canvas.drawText("Time remaining: ${timeLeft / 1000f} seconds", 15f, 50f, mTextPaint)
         canvas.drawText("Shots made: $shotsCount", 15f, 100f, mTextPaint)
+        canvas.drawText("${gameSurface.difficulty}", 15f, gameSurface.height-30f, mTextPaint)
     }
 
     fun hitShot() {
