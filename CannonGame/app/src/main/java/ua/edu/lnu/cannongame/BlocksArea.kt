@@ -3,6 +3,7 @@ package ua.edu.lnu.cannongame
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.util.Log
+import kotlin.random.Random
 
 class BlocksArea(
     private val gameSurface: GameSurface,
@@ -10,6 +11,7 @@ class BlocksArea(
     y: Int,
     width: Int,
     height: Int,
+    num: Int,
     private var rows: Int,
     private var cols: Int
 ) : GameObject(null, x, y, width, height)
@@ -24,7 +26,10 @@ class BlocksArea(
     private val blockHeight: Int = height / rows - 2 * paddingY
 
     init {
-        Log.i("BlockArea created", "x=${x}, y=${y}, width=${width}, height=${height}, blockWidth=${blockWidth}, blockHeight=${blockHeight}")
+        Log.i(
+            "BlockArea created",
+            "x=${x}, y=${y}, width=${width}, height=${height}, blockWidth=${blockWidth}, blockHeight=${blockHeight}"
+        )
 
         val blockBitmap = if (gameSurface.orientation == GameSurface.Orientation.LANDSCAPE) {
             BitmapFactory.decodeResource(gameSurface.resources, R.drawable.target).rotate(90f)
@@ -32,25 +37,37 @@ class BlocksArea(
             BitmapFactory.decodeResource(gameSurface.resources, R.drawable.target)
         }
 
-        for (i in 0 until rows) {
-            for (j in 0 until cols) {
-                val block = if (gameSurface.orientation == GameSurface.Orientation.LANDSCAPE) {
-                    Block(gameSurface,
-                        blockBitmap,
-                        x + width - (blockWidth + paddingX + j * (paddingX + blockWidth)),
-                        y + paddingY + i * (paddingY + blockHeight),
-                        blockWidth,
-                        blockHeight)
-                } else {
-                    Block(gameSurface,
-                        blockBitmap,
-                        x + paddingX + j * (paddingX + blockWidth),
-                        y + paddingY + i * (paddingY + blockHeight),
-                        blockWidth,
-                        blockHeight)
-                }
-                blocks.add(block)
+        if (num > rows * cols) {
+            throw IllegalArgumentException("Can not create ${num} blocks on ${rows}x${cols} grid")
+        }
+
+        var gridCoordinates = mutableSetOf<Pair<Int, Int>>()
+        while (gridCoordinates.size != num) {
+            val coordinate = Pair(Random.nextInt(0, rows), Random.nextInt(0, cols))
+            gridCoordinates.add(coordinate)
+        }
+
+        for ((i, j) in gridCoordinates) {
+            val block = if (gameSurface.orientation == GameSurface.Orientation.LANDSCAPE) {
+                Block(
+                    gameSurface,
+                    blockBitmap,
+                    x + width - (blockWidth + paddingX + j * (paddingX + blockWidth)),
+                    y + paddingY + i * (paddingY + blockHeight),
+                    blockWidth,
+                    blockHeight
+                )
+            } else {
+                Block(
+                    gameSurface,
+                    blockBitmap,
+                    x + paddingX + j * (paddingX + blockWidth),
+                    y + paddingY + i * (paddingY + blockHeight),
+                    blockWidth,
+                    blockHeight
+                )
             }
+            blocks.add(block)
         }
     }
 
