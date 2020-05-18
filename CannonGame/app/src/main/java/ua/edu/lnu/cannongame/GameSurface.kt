@@ -151,7 +151,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         val cannonBitmap =
             BitmapFactory.decodeResource(this.resources, R.drawable.cannon_2)
         val cannonBallBitmap =
-            BitmapFactory.decodeResource(this.resources, R.drawable.cannon_ball)
+            BitmapFactory.decodeResource(this.resources, R.drawable.cannon_ball_2)
 
         cannon = if (orientation == Orientation.LANDSCAPE){
             Cannon(this, cannonBitmap, width/2-60, height/2-200, -1, -1)
@@ -164,6 +164,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
         var num = 6
         var unbreakableNum = 1
+        var rows = 4
 
         if (difficulty == Difficulty.MEDIUM) {
             num = 7
@@ -171,13 +172,14 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         }
         else if (difficulty == Difficulty.HARD) {
             num = 8
-            unbreakableNum = 2
+            unbreakableNum = 3
+            rows = 5
         }
 
         blocksArea = if (orientation == Orientation.LANDSCAPE) {
-            BlocksArea(this, width / 2, 0, width / 2, height, num, unbreakableNum,4, 3)
+            BlocksArea(this, width / 2, 0, width / 2, height, num, unbreakableNum, rows, 3)
         } else {
-            BlocksArea(this, 0, 70, width, height / 2, num, unbreakableNum,3, 4)
+            BlocksArea(this, 0, 70, width, height / 2, num, unbreakableNum,3, rows)
         }
 
         gameThread = GameThread(this, holder)
