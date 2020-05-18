@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
+import android.graphics.Typeface
 import android.util.Log
 
 
@@ -13,6 +14,7 @@ class GameData(private val gameSurface: GameSurface) {
     // 10 seconds
     private var timeLeft = 10000L
 
+<<<<<<< HEAD
     var attributes = AudioAttributes.Builder()
         .setUsage(AudioAttributes.USAGE_GAME)
         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -22,6 +24,10 @@ class GameData(private val gameSurface: GameSurface) {
         .setAudioAttributes(attributes)
         .build()
 
+=======
+    var resultMessage: String = "lose"
+        get() = field
+>>>>>>> origin/develop
 
     var totalTime = 0L
         get() = field
@@ -63,9 +69,12 @@ class GameData(private val gameSurface: GameSurface) {
     }
 
     fun draw(canvas: Canvas) {
-        mTextPaint.textSize = 45f;
+        mTextPaint.textSize = 47f
+        mTextPaint.color = Color.rgb(0, 0, 0)
+        mTextPaint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
         canvas.drawText("Time remaining: ${timeLeft / 1000f} seconds", 15f, 50f, mTextPaint)
         canvas.drawText("Shots made: $shotsCount", 15f, 100f, mTextPaint)
+        canvas.drawText("${gameSurface.difficulty}", 15f, gameSurface.height-30f, mTextPaint)
     }
 
     fun hitShot() {

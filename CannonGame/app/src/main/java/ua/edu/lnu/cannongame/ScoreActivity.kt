@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
@@ -22,6 +23,11 @@ class ScoreActivity : AppCompatActivity() {
         pref = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
         setContentView(R.layout.scoreboard_activity)
         findViewById<ImageButton>(R.id.backButton)
+                .setOnClickListener {
+                    Log.i("InfoActivity", "Back clicked")
+                    val intent = Intent(this@ScoreActivity, MainActivity::class.java)
+                    startActivity(intent)
+                }
     }
 
     override fun onResume() {
@@ -30,9 +36,9 @@ class ScoreActivity : AppCompatActivity() {
         val scoreLayout = findViewById<LinearLayout>(R.id.scoreLayout)
         for (i in 1 until 11){
             val score = gson.fromJson(pref.getString("pos_$i", "")!!, GameActivity.Score::class.java)
-            if (score != null){
+            if (score != null) {
                 val textView = TextView(this)
-                textView.setText("${score.nickName} - ${score.totalTime/1000f} seconds")
+                textView.text = "${score.nickName} - ${score.totalTime/1000f} seconds"
                 scoreLayout.addView(textView)
             }
         }
