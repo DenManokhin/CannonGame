@@ -74,9 +74,16 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
             if ((0 <= dot(ab,am) && dot(ab,am) <= dot(ab,ab)) &&
                     (0 <= dot(bc,bm) && dot(bc,bm) <= dot(bc,bc))) {
-                blocksArea!!.removeBlock(block)
-                gameData!!.hitShot()
-                break
+                if(!block.isUnbreakable)
+                {
+                    blocksArea!!.removeBlock(block)
+                    gameData!!.hitShot()
+                    break
+                }
+                else
+                {
+                    gameData!!.hitUnbreakable()
+                }
             }
         }
 
@@ -164,9 +171,9 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         }
 
         blocksArea = if (orientation == Orientation.LANDSCAPE) {
-            BlocksArea(this, width / 2, 0, width / 2, height, num, 4, 3)
+            BlocksArea(this, width / 2, 0, width / 2, height, 5, 1,4, 3)
         } else {
-            BlocksArea(this, 0, 70, width, height / 2, num,3, 4)
+            BlocksArea(this, 0, 70, width, height / 2, 5,1,3, 4)
         }
 
         gameThread = GameThread(this, holder)

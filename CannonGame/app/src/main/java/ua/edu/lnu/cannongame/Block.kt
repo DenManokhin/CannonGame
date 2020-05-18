@@ -6,6 +6,7 @@ import android.util.Log
 
 class Block (
     private val gameSurface: GameSurface,
+    val isUnbreakable: Boolean,
     image: Bitmap?,
     x: Int,
     y: Int,
