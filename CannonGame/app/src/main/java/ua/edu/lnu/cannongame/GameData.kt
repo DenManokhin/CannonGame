@@ -14,20 +14,18 @@ class GameData(private val gameSurface: GameSurface) {
     // 10 seconds
     private var timeLeft = 10000L
 
-<<<<<<< HEAD
-    var attributes = AudioAttributes.Builder()
-        .setUsage(AudioAttributes.USAGE_GAME)
-        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-        .build()
+//    var attributes = AudioAttributes.Builder()
+//        .setUsage(AudioAttributes.USAGE_GAME)
+//        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+//        .build()
+//
+//    var soundPool = SoundPool.Builder()
+//        .setAudioAttributes(attributes)
+//        .build()
 
-    var soundPool = SoundPool.Builder()
-        .setAudioAttributes(attributes)
-        .build()
 
-=======
     var resultMessage: String = "lose"
         get() = field
->>>>>>> origin/develop
 
     var totalTime = 0L
         get() = field
@@ -44,6 +42,7 @@ class GameData(private val gameSurface: GameSurface) {
     init {
         mTextPaint.color = Color.BLACK;
         mTextPaint.textSize = 50f
+
     }
 
     fun canMakeNewShot() : Boolean {
@@ -81,10 +80,9 @@ class GameData(private val gameSurface: GameSurface) {
         timeLeft += 3000L
         timeFromLastShot = 3000L
 
-        //val soundId = soundPool.load(gameSurface.getContext().getApplicationContext(), R.raw.shot_in_block, 1)
-        val soundId = soundPool.load(gameSurface.getContext().getApplicationContext(), R.raw.shot_in_block, 1)
-        Log.e("Sound loaded", "id=${soundId}")
-        soundPool.play(soundId, 10F, 10F, 0, 0, 10F)
+//        val soundId = soundPool.load(gameSurface.getContext().getApplicationContext(), R.raw.shot_in_block, 1)
+//        Log.e("Sound loaded", "id=${soundId}")
+//        soundPool.play(soundId, 10F, 10F, 0, 0, 10F)
 
     }
 

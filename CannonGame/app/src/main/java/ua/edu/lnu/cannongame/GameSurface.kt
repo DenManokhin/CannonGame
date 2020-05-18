@@ -1,24 +1,28 @@
 package ua.edu.lnu.cannongame
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.text.Html
+import android.media.AudioAttributes
+import android.media.SoundPool
+import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.view.View
-import androidx.appcompat.app.AlertDialog
-import java.util.*
 
 
 class GameSurface: SurfaceView, SurfaceHolder.Callback {
+
+    var attributes = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_GAME)
+        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+        .build()
+
+    var soundPool = SoundPool.Builder()
+        .setAudioAttributes(attributes)
+        .build()
 
     enum class Orientation {
         PORTRAIT, LANDSCAPE
@@ -49,10 +53,13 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
     init {
         holder.addCallback(this)
         difficulty = Difficulty((context as GameActivity).getDifficulty())
+
+
     }
 
     constructor(context: Context?) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+
 
     private fun dot(U:List<Int>, V:List<Int>): Int {
         return U[0] * V[0] + U[1] * V[1]
@@ -235,7 +242,9 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
                 }
             }
         }
-
+        val soundId = soundPool.load(getContext().getApplicationContext(), R.raw.shot_in_block, 1)
+        Log.e("Sound loaded", "id=${soundId}")
+        soundPool.play(soundId, 10F, 10F, 0, 0, 10F)
         return super.onTouchEvent(event)
     }
 }
