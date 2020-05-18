@@ -28,15 +28,33 @@ class GameOverDialog : DialogFragment() {
     ): View {
         val v: View = inflater.inflate(R.layout.game_over_dialog, container, false)
         val tv: View = v.findViewById(R.id.game_over_text)
+
+        val nicknameEditText: EditText = v.findViewById(R.id.nickname)
+        val cancelButton: Button = v.findViewById(game_over_cancel) as Button
+        val saveButton: Button = v.findViewById(game_over_save) as Button
+
         val currentTime = (activity as GameActivity).getCurrentTime()
-        if (currentTime != -1L){
-            (tv as TextView).text =
-                        "Game is over\n" +
+        val resultMessage = (activity as GameActivity).getResultMessage()
+
+        if (resultMessage == "lose") {
+            nicknameEditText.visibility = View.INVISIBLE
+            saveButton.visibility = View.INVISIBLE
+
+            if (currentTime != -1L) {
+                (tv as TextView).text =
+                        "You " + resultMessage + "!!!\n" +
+                        "Total time: ${currentTime/1000f} seconds\n"
+            }
+        }
+        else {
+            if (currentTime != -1L) {
+                (tv as TextView).text =
+                        "You " + resultMessage + "!!!\n" +
                         "Total time: ${currentTime/1000f} seconds\n" +
                         "Please input your nickname"
+            }
         }
 
-        val cancelButton: Button = v.findViewById(game_over_cancel) as Button
         cancelButton.setOnClickListener { // When button is clicked, call up to owning activity.
             Log.i("GameOverDialog", "User cancelled the dialog")
             Log.i("GameOverDialog", "$activity")
@@ -46,12 +64,11 @@ class GameOverDialog : DialogFragment() {
             activity.finish()
             Runtime.getRuntime().exit(0)
         }
-        val saveButton: Button = v.findViewById(game_over_save) as Button
+
         saveButton.setOnClickListener { // When button is clicked, call up to owning activity.
             Log.i("GameOverDialog", "User clicked save button")
             Log.i("GameOverDialog", "$activity")
 
-            val nicknameEditText: EditText = v.findViewById(R.id.nickname)
             (activity as GameActivity).updateScoreboard(
                 nicknameEditText.text!!.toString(),
                 currentTime

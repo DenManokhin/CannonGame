@@ -1,17 +1,21 @@
 package ua.edu.lnu.cannongame
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.text.Html
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import java.util.*
-
 
 
 class GameSurface: SurfaceView, SurfaceHolder.Callback {
@@ -82,6 +86,13 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
                 }
             }
         }
+
+        if(blocksArea?.blocks.isNullOrEmpty()) {
+            gameData!!.resultMessage = "win"
+            gameThread!!.setRunning(false)
+            val gameActivity = context as GameActivity
+            gameActivity.showDialog()
+        }
     }
     
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
@@ -150,6 +161,15 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
         gameData = GameData(this)
 
+        var num = 5
+
+        if (difficulty == Difficulty.MEDIUM) {
+            num = 7
+        }
+        else if (difficulty == Difficulty.HARD) {
+            num = 9
+        }
+
         blocksArea = if (orientation == Orientation.LANDSCAPE) {
             BlocksArea(this, width / 2, 0, width / 2, height, 5, 1,4, 3)
         } else {
@@ -181,7 +201,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
             cannonBall!!.update()
             blocksArea!!.update()
             
-        }else{
+        }else {
             gameThread!!.setRunning(false)
             val gameActivity = context as GameActivity
             gameActivity.showDialog()
