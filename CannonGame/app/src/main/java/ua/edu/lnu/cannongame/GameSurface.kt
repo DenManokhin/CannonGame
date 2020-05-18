@@ -107,7 +107,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
             }
             orientation = Orientation.LANDSCAPE
             synchronized(cannon!!){
-                cannon!!.changePosition(25, height/2-200)
+                cannon!!.changePosition(100, height/2-55)
             }
         }else{
             if (orientation == Orientation.LANDSCAPE) {
@@ -117,7 +117,7 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
             }
             orientation = Orientation.PORTRAIT
             synchronized(cannon!!){
-                cannon!!.changePosition(width/2-200, height - 275)
+                cannon!!.changePosition(width/2-60, height - 200)
             }
         }
     }
@@ -149,14 +149,14 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
         Log.i("GameSurface", "SurfaceCreated width=${width}, height=${height}, orientation=${orientation}")
 
         val cannonBitmap =
-            BitmapFactory.decodeResource(this.resources, R.drawable.cannon)
+            BitmapFactory.decodeResource(this.resources, R.drawable.cannon_2)
         val cannonBallBitmap =
             BitmapFactory.decodeResource(this.resources, R.drawable.cannon_ball)
 
         cannon = if (orientation == Orientation.LANDSCAPE){
-            Cannon(this, cannonBitmap, 25, height/2-200, -1, -1)
+            Cannon(this, cannonBitmap, width/2-60, height/2-200, -1, -1)
         }else{
-            Cannon(this, cannonBitmap, width/2-200, height - 225, -1, -1)
+            Cannon(this, cannonBitmap, 100, height/2-55, -1, -1)
         }
         cannonBall = CannonBall(this, cannonBallBitmap, 0, 0, 30, 30)
 
