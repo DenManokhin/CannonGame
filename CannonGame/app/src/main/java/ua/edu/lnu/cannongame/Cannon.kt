@@ -31,7 +31,7 @@ class Cannon (
         private set
 
     // Rotate velocity (deg/millisecond)
-    private val VELOCITY = 0.01f
+    private val VELOCITY = 0.025f
     private var ROTATE_COEF = 1
 
     private var lastDrawNanoTime: Long = -1

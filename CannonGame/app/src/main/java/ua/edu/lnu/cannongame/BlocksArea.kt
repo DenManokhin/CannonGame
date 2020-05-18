@@ -152,6 +152,19 @@ class BlocksArea(
         }
     }
 
+    fun isEmpty(): Boolean {
+        var flag = true
+
+        for (block in blocks) {
+            if(!block.isUnbreakable)
+            {
+                flag = false
+            }
+        }
+
+        return flag
+    }
+
     fun removeBlock(x: Block){
         blocks.remove(x)
     }

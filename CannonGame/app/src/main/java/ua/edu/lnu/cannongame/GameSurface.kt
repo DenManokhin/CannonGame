@@ -82,12 +82,13 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
                 }
                 else
                 {
-                    gameData!!.hitUnbreakable()
+                    gameData!!.missShot()
+                    cannon!!.startRotate()
                 }
             }
         }
 
-        if(blocksArea?.blocks.isNullOrEmpty()) {
+        if(blocksArea!!.isEmpty()) {
             gameData!!.resultMessage = "win"
             gameThread!!.setRunning(false)
             val gameActivity = context as GameActivity
@@ -161,19 +162,22 @@ class GameSurface: SurfaceView, SurfaceHolder.Callback {
 
         gameData = GameData(this)
 
-        var num = 5
+        var num = 6
+        var unbreakableNum = 1
 
         if (difficulty == Difficulty.MEDIUM) {
             num = 7
+            unbreakableNum = 2
         }
         else if (difficulty == Difficulty.HARD) {
-            num = 9
+            num = 8
+            unbreakableNum = 2
         }
 
         blocksArea = if (orientation == Orientation.LANDSCAPE) {
-            BlocksArea(this, width / 2, 0, width / 2, height, 5, 1,4, 3)
+            BlocksArea(this, width / 2, 0, width / 2, height, num, unbreakableNum,4, 3)
         } else {
-            BlocksArea(this, 0, 70, width, height / 2, 5,1,3, 4)
+            BlocksArea(this, 0, 70, width, height / 2, num, unbreakableNum,3, 4)
         }
 
         gameThread = GameThread(this, holder)
